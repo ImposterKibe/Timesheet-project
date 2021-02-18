@@ -1,0 +1,6 @@
+{
+    "/api": {
+        "target": "http://172.16.1.79:3100",
+        "secure": false
+    }
+}

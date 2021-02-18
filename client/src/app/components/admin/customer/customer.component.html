@@ -1,0 +1,66 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <a>
+      <h2 class="heading">Customers</h2>
+    </a>
+    <div>
+      <mat-form-field>
+        <input matInput (keyup)="applyCustomerFilter($event.target.value)" placeholder="Search">
+      </mat-form-field>
+      <a color="primary" class="actionButton" *ngIf="screen==false" mat-fab routerLink="/timesheet/admin/customer/add"
+        routerLinkActive="active">
+        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+      </a>
+      <a color="primary" class="actionButton" *ngIf="screen==true" mat-mini-fab
+        routerLink="/timesheet/admin/customer/add" routerLinkActive="active">
+        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+      </a>
+    </div>
+  </div>
+  <div *ngIf="showTable==false" class="mat-elevation-z16 customer-table msgTable">
+    <mat-card class="error-msg text-center">{{tableMsg}}</mat-card>
+  </div>
+
+  <div class="mat-elevation-z8 customer-table" *ngIf="showTable" [class.isMobile]="isMobile">
+    <mat-table [dataSource]="curstomersArr" matSort>
+
+      <ng-container matColumnDef="customer_code">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Customer Code</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Customer Code:</span>
+          {{element.customer_code}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Customer Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Customer Name:</span>
+          {{element.name}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Description</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Description:</span>
+          {{element.description}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef class="actionsHead"> Actions</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="actions-one">
+          <button mat-button (click)="edit(element.id)">
+            <i class="material-icons">
+              edit
+            </i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator #paginator [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>

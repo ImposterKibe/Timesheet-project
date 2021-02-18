@@ -1,0 +1,88 @@
+<div>
+  <app-navbar *ngIf="showNav!=false"></app-navbar>
+</div>
+<div class="container mb-10 reportContainer">
+  <div fxFlex="100%" class="userReportForm">
+    <mat-card class="example-card mat-elevation-z8 pb-0">
+      <mat-form-field>
+        <input matInput [matDatepicker]="startPicker" [(ngModel)]="selectedStartDate" placeholder="Start date"
+          [min]="startMinDate" [max]="startMaxDate" (focus)="startPicker.open()" name="start_Date" class="form-control"
+          (click)="startPicker.open()" (dateChange)="changedStartDate('change', $event)" readonly>
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="endPicker" placeholder="End date" (focus)="endPicker.open()" [min]="endMinDate"
+          [max]="endMaxDate" name="end_Date" class="form-control" [(ngModel)]="selectedEndDate"
+          (click)="endPicker.open()" (dateChange)="changedEndDate('change', $event)" readonly>
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button class="actionButton1" (click)="changedDate()">Submit</button>
+    </mat-card>
+  </div>
+</div>
+<div class="container mb-10" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div fxLayout="row" fxLayoutAlign="space-between end">
+    <h2 class="heading">Availablility Report asdsad</h2>
+    <button mat-flat-button class="actionButton1" style="height: min-content;margin-bottom: 1%" title="Download Excel"
+      (click)="exportAsXLSX()" [disabled]="false">Export</button>
+  </div>
+  <div *ngIf="showTable==false" class="mat-elevation-z8 project-table msgTable">
+    <mat-card class="error-msg text-center">{{tableMsg}}</mat-card>
+  </div>
+  <div *ngIf="showTable" class="mat-elevation-z8 example-container" [class.isMobile]="isMobile">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="empName" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee Name</th>
+        <td mat-cell *matCellDef="let element">
+          <span class="mobile-label">Employee:</span>
+          {{element.empName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="showAvAs" sticky>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <span class="mobile-label"></span>
+          <pre width="50">Available
+Leaves 
+                </pre>
+        </td>
+      </ng-container>
+      <ng-container *ngFor="let column of columns" matColumnDef="{{column.columnDef}}">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{column.hoverTxt }}"
+          class="mat-header-cell {{column.class}}">
+          {{column.header }}
+        </th>
+        <td mat-cell *matCellDef="let element" class='dataEle {{column.class}}'>
+          <span class="mobile-label">{{column.header }}:</span>
+          <pre>{{element[''+column.columnDef].Available}}
+<a>{{element[''+column.columnDef].leavesCount}}</a>
+                </pre>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="total" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef>Total</th>
+        <td mat-cell *matCellDef="let element">
+          <span class="mobile-label">Total : </span>
+          <pre>{{element.totalAvailable}}
+{{element.totalLeaves}}
+          </pre>
+        </td>
+      </ng-container>
+      <ng-container *ngFor="let column of tempTopCol" matColumnDef="{{column.columnDef}}">
+        <th mat-header-cell *matHeaderCellDef class="mat-header-cell weekData tempData {{column.class}}"
+          [attr.colspan]="column.colspan" [attr.rowspan]="column.rowspan">
+          {{column.header}}
+        </th>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedTopColumns; sticky: true" class="TopHeadersTr"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="secondary-header"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div class="footer">
+      <mat-paginator #paginator [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]"
+        showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+</div>

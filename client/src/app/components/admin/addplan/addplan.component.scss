@@ -1,0 +1,123 @@
+.example-container {
+  margin-bottom: 1rem;
+  overflow: auto;
+}
+
+.assignedInput{
+  width: 65%;
+  background: #efeeee;
+  border-radius: 3px;
+  padding: 1px 2px 1px 4px;
+  margin-left: 4.5px;
+}
+
+.actionButton{
+  background:#d91652;
+  color:white;
+  margin-bottom: 30px;
+}
+
+.mobile-label {
+  display: none;
+}
+.mat-column-empName{
+  min-width: 10rem;
+}
+
+.mat-column-projectName{
+  min-width: 10rem;
+  max-width: 10rem;
+}
+
+.mat-column-empName, .mat-column-showAvAs, .mat-column-projectName, .mat-column-total, .mat-column-action{
+  background: #E5F0F6;
+}
+
+.mat-column-showAvAs>pre{
+  max-width: 7rem;
+  height: 45px;
+}
+
+td[class*="table-month-"]>pre{
+  max-width: 5rem !important;
+  padding-left: 0.5rem;
+  height: 45px;
+  font-size: 1.2rem;
+}
+
+.mat-column-total>pre{
+  max-width: 4rem !important;
+  padding-left: 0.5rem;
+  height: 45px;
+  font-size: 1rem;
+}
+th[class*="table-month-"], th.mat-column-total{
+  padding-left: 0.5rem;
+}
+
+.TopHeadersTr, .secondary-header{
+  height: 0;
+}
+
+.TopHeadersTr> .mat-header-cell {
+  padding-top: 0.5rem;
+}
+
+.secondary-header> .mat-header-cell {
+  padding-bottom: 0.5rem;
+}
+
+th.mat-header-cell {
+  border: none;
+}
+
+.mat-column-empName1{
+  left: 0;
+  position: sticky;
+  z-index:101 !important;
+}
+
+.mat-column-total1{
+  right: 0;
+  position: sticky;
+}
+
+.text-left{
+  text-align: left !important;
+}
+.mat-header-cell{
+  text-align: center;
+}
+
+.TopHeadersTr>.table-month-even, .secondary-header>.table-month-even{
+  background: #006999  !important
+}
+
+.TopHeadersTr>.table-month-even{
+  border-bottom: 1px solid #0070A3 !important;
+}
+
+.mat-row>.table-month-even{
+  background: hsla(199, 100%, 20%, 0.15) !important; 
+}
+
+.TopHeadersTr>.table-month-odd{
+  border-bottom: 1px solid #D6EAF8 !important;
+}
+
+pre{
+  margin: 0 !important;
+  font-size: 1rem;
+}
+
+.planBtn{
+  margin-bottom: 1rem;
+  float: right;
+}
+
+.footer {
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}

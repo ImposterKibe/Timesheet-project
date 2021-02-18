@@ -1,0 +1,66 @@
+<app-navbar [showActiveCompo]="false"></app-navbar>
+<h3 *ngIf="edit==false" class="main-heading">Add timesheet</h3>
+<h3 *ngIf="edit==true" class="main-heading">Edit timesheet</h3>
+<div class="container">
+  <div fxLayout="row" fxLayoutAlign="space-around">
+    <div class="timesheet addForm" fxLayout="column" fxLayoutAlign="space-evenly">
+      <form [formGroup]="timesheetForm">
+        <div [ngClass]="{ 'has-error': submitted && f.projectid.errors }" class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Projects" [ngClass]="{ 'has-error': submitted && f.projectid.errors }"
+              class="form-control" formControlName="projectid">
+              <mat-option *ngFor="let pro of pros" name="selectproject" [value]="pro.proid"
+                (click)="selectproid(this.pro.proid)" matTooltip="{{pro.value}}" matTooltipPosition="right">
+                {{pro.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="submitted && f.projectid.errors" class="help-block">
+            <div *ngIf="f.projectid.errors.required" class="validation-error">Select any project</div>
+          </div>
+        </div>
+        <mat-form-field class="full-width">
+          <textarea matInput placeholder="Description" type="text" [(ngModel)]="timesheet.description"
+            class="form-control" formControlName="description" name="description"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="startPicker" placeholder="date"
+            [(ngModel)]="timesheet.date" name="date" placeholder="Day" class="form-control" formControlName="date"
+            (focus)="startPicker.open()" (click)="startPicker.open()" (dateChange)="changedDate('change', $event)"
+            readonly>
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="space-between none">
+          <div class="timeDiv">
+            <mat-form-field class="small-width">
+              <input matInput placeholder="Start Time" [ngxTimepicker]="StartTime" [format]="24"
+                [(ngModel)]="timesheet.start_time" name="start_time" readonly class="form-control"
+                formControlName="start">
+              <ngx-material-timepicker #StartTime (closed)="compareTimes()"></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+          <div class="timeDiv">
+            <mat-form-field class="small-width">
+              <input matInput placeholder="End Time" [ngxTimepicker]="EndTime" [format]="24" readonly
+                [(ngModel)]="timesheet.end_time" name="end_time" class="form-control" formControlName="end">
+              <ngx-material-timepicker #EndTime (closed)="compareTimes()"></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <mat-form-field class="full-width">
+            <mat-label>Duration</mat-label>
+            <input disabled [(ngModel)]="calcDuration" matInput disabled type="text" name="duration" placeholder="Date"
+              class="form-control" formControlName="duration">
+          </mat-form-field>
+        </div>
+      </form>
+      <div fxLayout="row" fxLayoutAlign="end">
+        <a mat-button routerLink="/timesheet">Cancel</a>
+        <button mat-raised-button [disabled]="saveBtnShow ? true : false" class="actionButton"
+          (click)="edit ? updateTimesheet() : saveNewTimesheet()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

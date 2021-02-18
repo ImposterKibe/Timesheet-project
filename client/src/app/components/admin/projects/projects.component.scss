@@ -1,0 +1,52 @@
+.actionsHead{
+  justify-content: center;
+}
+
+.project_name_manager{
+  flex: 0 0 30% !important;
+}
+
+.project_name_admin{
+  flex: 0 0 25% !important;
+}
+
+.customer_name_admin{
+  flex: 0 0 15% !important;
+}
+.customer_name_manager{
+  flex: 0 0 23.9% !important;
+}
+.service_line_admin{
+  flex: 0 0 10% !important;
+}
+.service_line_manager{
+  flex: 0 0 18% !important;
+}
+.user_name_admin{
+  flex: 0 0 15% !important;
+}
+.planned_start_date_admin{
+  flex: 0 0 12% !important;
+}
+.planned_end_date_admin{
+  flex: 0 0 12% !important;
+}
+.planned_start_date_manager{
+  flex: 0 0 12% !important;
+}
+.planned_end_date_manager{
+  flex: 0 0 12% !important;
+}
+  @media(max-width: 600px) {
+    .mat-header-row {
+      display: none;
+    }
+    .mat-row { 
+      flex-direction: column;
+      align-items: start;
+      padding: 8px 8px;
+    }
+    mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type {
+        padding-left: 0px;
+    }
+  }

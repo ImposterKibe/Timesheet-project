@@ -1,0 +1,99 @@
+<div>
+  <app-navbar *ngIf="showNav!=false"></app-navbar>
+</div>
+<div class="container mb-10" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div fxFlex="100%" class="userReportForm">
+    <mat-card class="example-card mat-elevation-z8 pb-0">
+      <mat-form-field>
+        <input matInput [matDatepicker]="startPicker" [(ngModel)]="selectedStartDate" placeholder="Start date"
+        [min]="startMinDate" [max]="startMaxDate" (focus)="startPicker.open()" name="start_Date" class="form-control"
+          (click)="startPicker.open()" (dateChange)="changedStartDate('change', $event)" readonly>
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="endPicker" placeholder="End date" (focus)="endPicker.open()"
+        [min]="endMinDate" [max]="endMaxDate" name="end_Date" class="form-control" [(ngModel)]="selectedEndDate"
+          (click)="endPicker.open()" (dateChange)="changedEndDate('change', $event)" readonly>
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button class="actionButton1" (click)="changedDate()">Submit</button>
+    </mat-card>
+  </div>
+</div>
+
+<div class="container" fxLayout fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px"
+  fxLayoutGap.xs="0">
+  <div fxFlex="35%">
+    <mat-card class="pb-0 example-card mat-elevation-z8">
+      <h2 class="main-heading">
+        Actual Vs Planned Hours</h2>
+      <form [formGroup]="userForm">
+        <mat-form-field>
+          <mat-select placeholder="Projects" id="selectProject" [(ngModel)]="selectedProjectName"
+            formControlName="proType" multiple>
+            <mat-option #allProSelected (click)="toggleAllProSelection()" [value]="0">All</mat-option>
+            <mat-option *ngFor="let pro of pros" [value]="pro.proid" (click)="selectproid(this.pro)"
+              matTooltip="{{pro.value}}" matTooltipPosition="right">
+              {{pro.value}}
+            </mat-option>
+            <div></div>
+          </mat-select>
+        </mat-form-field>
+      </form>
+
+      <div *ngIf="showBarGraph==false">
+        <mat-card class="error-msg text-center">{{bgMsg}}</mat-card>
+      </div>
+      <div id="barChartdiv"></div>
+    </mat-card>
+  </div>
+  <div fxFlex="60%">
+    <mat-card class="pb-0 example-card tsHeight mat-elevation-z8">
+      <h2 class="main-heading">Timesheet Summary</h2>
+      <mat-card-content>
+        <div fxLayout="column" fxLayoutAlign="center">
+          <div fxFlex="50%" fxLayout fxLayout.xs="column">
+            <div fxFlex="100%">
+              <mat-table table [dataSource]="tabledata" style="padding-top: 10%;" matSort *ngIf="showTable==true">
+                <ng-container matColumnDef="Details">
+                  <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <span class="mobile-label">Details:</span>
+                    {{element.type}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Hours">
+                  <mat-header-cell *matHeaderCellDef>Hours</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <span class="mobile-label">Hours:</span>
+                    {{element.hours}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="percentOfHrs">
+                  <mat-header-cell *matHeaderCellDef>%</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <span class="mobile-label">%</span>
+                    {{element.percent}}</mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex="35%">
+    <mat-card class="pb-0 example-card mat-elevation-z8">
+      <h2 class="main-heading">Work Break Summary</h2>
+      <mat-card-content>
+        <div fxLayout="column" fxLayoutAlign="center">
+          <div fxFlex="100%">
+            <div id="pieChartdiv"></div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

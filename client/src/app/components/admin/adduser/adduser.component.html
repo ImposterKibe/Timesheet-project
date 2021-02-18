@@ -1,0 +1,105 @@
+<app-navbar></app-navbar>
+<h3 *ngIf="access==true" class="main-heading">Add user</h3>
+<h3 *ngIf="access==false" class="main-heading">Edit user</h3>
+<div class="container">
+
+  <div fxLayout="row" fxLayoutAlign="space-around">
+    <div class="addForm" fxLayout="column" fxLayoutAlign="space-around">
+
+      <form [formGroup]="userForm">
+        <!-- userid -->
+        <div *ngIf="access==true" class="full-width" [ngClass]="{ 'has-error': submitted && f.userid.errors }"
+          class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="User Id" type="text" [(ngModel)]="user.user_id" name="userid"
+              [ngClass]="{ 'has-error': submitted && f.userid.errors }" class="form-control"
+              oninput="this.value = this.value.toUpperCase()" formControlName="userid"
+              (keypress)="checkUserCre($event,'id')">
+          </mat-form-field>
+          <div *ngIf="submitted && f.userid.errors" class="help-block">
+            <div *ngIf="f.userid.errors.required" class="validation-error">User Id is required</div>
+          </div>
+        </div>
+        <!-- network id -->
+        <div class="full-width" [ngClass]="{ 'has-error': submitted && f.network_id.errors }"
+          class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Network Id" type="text" [(ngModel)]="user.network_id" name="network_id"
+              [ngClass]="{ 'has-error': submitted && f.network_id.errors }" class="form-control"
+              formControlName="network_id" (keypress)="checkUserCre($event,'network_id')">
+          </mat-form-field>
+          <div *ngIf="submitted && f.network_id.errors" class="help-block">
+            <div *ngIf="f.network_id.errors.required" class="validation-error">Network Id is required</div>
+          </div>
+        </div>
+
+        <!-- username -->
+        <div class="full-width" [ngClass]="{ 'has-error': submitted && f.username.errors }" class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="User Name" type="text" [(ngModel)]="user.user_name" name="username"
+              [ngClass]="{ 'has-error': submitted && f.username.errors }" class="form-control"
+              formControlName="username" (keypress)="checkUserCre($event,'name')">
+          </mat-form-field>
+          <div *ngIf="submitted && f.username.errors" class="help-block">
+            <div *ngIf="f.username.errors.required" class="validation-error">User Name is required</div>
+          </div>
+        </div>
+        <!-- employee id -->
+        <div class="full-width" class="form-group clearfix" [ngClass]="{ 'has-error': submitted && f.email_id.errors }">
+          <mat-form-field class="full-width">
+            <span matSuffix>@quadratyx.com &nbsp;</span>
+            <input matInput placeholder="Email Id" type="text" [(ngModel)]="user.email_id" name="email_id"
+              [ngClass]="{ 'has-error': submitted && f.email_id.errors }" class="form-control"
+              formControlName="email_id" (keypress)="checkEmail($event)">
+          </mat-form-field>
+          <div *ngIf="submitted && f.email_id.errors" class="help-block">
+            <div *ngIf="f.email_id.errors.required" class="validation-error">Email Id is required</div>
+          </div>
+        </div>
+        <!-- Employee group -->
+        <div class="full-width" class="form-group clearfix"
+          [ngClass]="{ 'has-error': submitted && f.emp_group.errors }">
+          <label id="example-radio-group-label">Employee group </label>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group form-control"
+            formControlName="emp_group" [(ngModel)]="user.emp_group" name="emp_group"
+            [ngClass]="{ 'has-error': submitted && f.emp_group.errors }">
+            <mat-radio-button class="example-radio-button" *ngFor="let ele of usrEmpGrp" name="selectrole"
+              [value]="ele.key">
+              {{ele.value}}
+            </mat-radio-button>
+          </mat-radio-group>
+
+          <div *ngIf="submitted && f.emp_group.errors" class="help-block">
+            <div *ngIf="f.emp_group.errors.required" class="validation-error">Employee group is required</div>
+          </div>
+        </div>
+        <div class="full-width" class="form-group clearfix"
+          [ngClass]="{ 'has-error': submitted && f.isBillable.errors  }">
+          <mat-checkbox class="" [(ngModel)]="user.is_billable" class="example-radio-group form-control"
+            formControlName="isBillable">
+            Billable</mat-checkbox>
+        </div>
+        <!-- roles -->
+        <div [ngClass]="{ 'has-error': submitted && f.roleid.errors }" class="form-group clearfix">
+          <label id="example-radio-group-label" class="roleLabel">Roles </label>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group form-control"
+            formControlName="roleid" [(ngModel)]="selectedItem" name="roles"
+            [ngClass]="{ 'has-error': submitted && f.roleid.errors }">
+            <mat-radio-button class="example-radio-button" *ngFor="let role of roles" name="selectrole"
+              [value]="role.roleid" (click)="selectroleid(this.role.roleid)">
+              {{role.value}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <div *ngIf="submitted && f.roleid.errors" class="help-block">
+            <div *ngIf="f.roleid.errors.required" class="validation-error">Select any role</div>
+          </div>
+        </div>
+      </form>
+      <div fxLayout="row" fxLayoutAlign="end">
+        <a mat-button routerLink="/timesheet/admin/users">Cancel</a>
+        <!--<button mat-raised-button (click)="edit ? updateTimesheet() : saveNewTimesheet()">Save</button>-->
+        <button mat-raised-button class="actionButton" (click)="edit ? updateUser() : saveNewUser()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,266 @@
+<div>
+  <app-navbar *ngIf="showNav!=false"></app-navbar>
+</div>
+
+<div class="container">
+  <mat-card class="pb-0 example-card mat-elevation-z8">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column">
+      <div>
+        <form [formGroup]="userForm" fxFlex fxLayout="column" autocomplete="off">
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <mat-list-item class="primary-imenu-item" role="listitem">
+              <mat-form-field>
+                <mat-select placeholder="Users" multiple [(ngModel)]="selectedUserName" formControlName="userType"
+                  id="selectUser">
+                  <mat-option #allUserSelected (click)="toggleAllUserSelection()" [value]="0">All</mat-option>
+                  <mat-option *ngFor="let user of users" [value]="user.userid" (click)="selectuserid(this.user)">
+                    {{user.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-list-item>
+          </div>
+        </form>
+      </div>
+      <div class="dateDiv" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column">
+        <div>
+          <mat-form-field>
+            <input matInput [matDatepicker]="startPicker" [(ngModel)]="selectedStartDate"
+              placeholder="Project start date" [min]="startMinDate" [max]="startMaxDate" (focus)="startPicker.open()"
+              name="start_Date" class="form-control" (click)="startPicker.open()"
+              (dateChange)="changedStartDate('change', $event)" readonly>
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput [matDatepicker]="endPicker" placeholder="Project end date" (focus)="endPicker.open()"
+            [min]="endMinDate" [max]="endMaxDate" name="end_Date" class="form-control" [(ngModel)]="selectedEndDate"
+              (click)="endPicker.open()" (dateChange)="changedEndDate('change', $event)" readonly>
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="datebtnDiv">
+          <button mat-raised-button class="actionButton1" (click)="changedDate()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- summary report  -->
+  <div fxLayout="column" fxLayoutAlign="">
+    <div fxLayout="row" fxLayoutAlign="space-between end">
+      <h2 class="heading">Summary Report</h2>
+      <button mat-flat-button class="actionButton1" style="height: min-content;"
+        (click)="SummaryReportExcel()">Export</button>
+    </div>
+    <div class="mat-elevation-z8 summaryDiv" [class.isMobile]="isMobile">
+      <mat-table table [dataSource]="summarytabledata" class="summary-table" matSort>
+        <ng-container matColumnDef="reportType">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label"></span>
+            {{element.type}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="hours">
+          <mat-header-cell *matHeaderCellDef>Person Hours</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Person Hours:</span>
+            {{element.hours}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="percentOfHours">
+          <mat-header-cell *matHeaderCellDef>% of Total</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">% of Total:</span>
+            {{element.percent}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedSummaryColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedSummaryColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+  <!-- detailed report  -->
+  <div fxLayout="column" fxLayoutAlign="">
+    <div fxLayout="row" fxLayoutAlign="space-between end">
+      <h2 class="heading">Detailed Report</h2>
+      <button mat-flat-button class="actionButton1" style="height: min-content;"
+        (click)="detailedReportExcel()">Export</button>
+    </div>
+    <div class="container" fxLayout fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px"
+      fxLayoutGap.xs="0">
+      <div fxFlex="75%"></div>
+      <div fxFlex="15%">
+        <mat-form-field>
+          <input matInput (keyup)="applyDetailedFilter($event.target.value)" placeholder="Search">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="mat-elevation-z8 summaryDiv" [class.isMobile]="isMobile">
+      <mat-table table [dataSource]="detailedtabledata" class="summary-table" #detailedSort="matSort" matSort>
+        <ng-container matColumnDef="user_name" sticky>
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="detailedUser">User Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="detailedUser">
+            <span class="mobile-label">User Name:</span>
+            {{element.user_name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="workingDaysHours" sticky>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Working Hours</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Working Hours:</span>
+            {{element.workingDaysHours}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="leavesDaysHours" sticky>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Leaves Hours</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Leaves Hours:</span>
+            {{element.leavesDaysHours}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="net_available_hrs">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Net Available Hours</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Net Available Hours:</span>
+            {{element.net_available_hrs}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="billable_hrs">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Billable Hours</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Billable Hours:</span>
+            {{element.billable_hrs}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="pre_sales">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Pre Sales</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Pre Sales:</span>
+            {{element.pre_sales}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="qta_dev">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>QTA Development</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">QTA Development:</span>
+            {{element.qta_dev}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="internal_engg">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Internal Engg</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Internal Engg:</span>
+            {{element.internal_engg}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="competency">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Competency</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Competency:</span>
+            {{element.competency}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="non_billable_hrs">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Non Billable Hours</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Non Billable Hours:</span>
+            {{element.non_billable_hrs}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="billable_utilization">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Billable Utilization</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Billable Utilization:</span>
+            {{element.billable_utilization}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="unaccounted_hrs">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Unaccounted Hours</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Unaccounted Hours:</span>
+            {{ element.unaccounted_hrs }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedDetailedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedDetailedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator #detailedPaginator="matPaginator" [pageIndex]="0" [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 50, 100]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+  <!-- timesheet report  -->
+  <div fxLayout="column" fxLayoutAlign="">
+    <div fxLayout="row" fxLayoutAlign="space-between end">
+      <h2 class="heading">Timesheet Report</h2>
+      <button mat-flat-button class="actionButton1" style="height: min-content;" (click)="exportAsXLSX()"
+        title="Download Excel" [disabled]="isDisabled">Export</button>
+    </div>
+    <div class="container" fxLayout fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px"
+      fxLayoutGap.xs="0">
+      <div fxFlex="15%">
+        <form [formGroup]="proForm" fxFlex fxLayout="column" autocomplete="off">
+          <mat-form-field>
+            <mat-select placeholder="Projects" id="selectProject" [(ngModel)]="selectedProjectName"
+              formControlName="proType" multiple>
+              <mat-option #allProSelected (click)="toggleAllProSelection()" [value]="0">All</mat-option>
+              <mat-option *ngFor="let pro of pros" [value]="pro.proid" (click)="selectproid(this.pro)"
+                matTooltip="{{pro.value}}" matTooltipPosition="right">
+                {{pro.value}}
+              </mat-option>
+              <div></div>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+      <div fxFlex="70%"></div>
+      <div fxFlex="15%">
+        <mat-form-field>
+          <input matInput (keyup)="applyTimesheetFilter($event.target.value)" placeholder="Search">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="mat-elevation-z8 sheet-table timesheetDiv" [class.isMobile]="isMobile" *ngIf="showReportsTable">
+      <mat-table table [dataSource]="tabledata" #timesheetSort="matSort" matSort>
+        <ng-container matColumnDef="user_name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="tsUser"> User Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="tsUser">
+            <span class="mobile-label">User Name:</span>
+            {{element.user_name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="project_name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Project Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Project Name:</span>
+            {{element.project_name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="entry_date">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Entry Date</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Entry Date:</span>
+            {{ element.entry_date | date:'dd/MM/yyyy' }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="start_time">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Start Time</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Start Time:</span>
+            {{ element.start_time | date:'HH:mm' }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="end_time">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>End Time</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">End Time:</span>
+            {{ element.end_time | date:'HH:mm' }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="duration">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Worked For</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="mobile-label">Worked For:</span>
+            {{ getDuration(element.workedHrs) }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator #timesheetPaginator="matPaginator" [pageIndex]="0" [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 50, 100]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+    <div *ngIf="showReportsTable==false" class="mat-elevation-z16 sheet-table msgTable">
+      <mat-card class="error-msg text-center">{{tableMsg}}</mat-card>
+    </div>
+  </div>
+</div>

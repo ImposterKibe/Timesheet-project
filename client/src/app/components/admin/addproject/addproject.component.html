@@ -1,0 +1,201 @@
+<app-navbar></app-navbar>
+<h3 *ngIf="edit==false" class="main-heading">Add project</h3>
+<h3 *ngIf="edit==true" class="main-heading">Edit project</h3>
+<div class="container">
+
+  <div fxLayout="row" fxLayoutAlign="space-around">
+    <div fxLayout="column" class="addForm" fxLayoutAlign="space-around">
+      <form [formGroup]="projectForm">
+        <!-- Customer Name -->
+        <div *ngIf="!edit" [ngClass]="{ 'has-error': submitted && f.customerId.errors }" class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <mat-select [(ngModel)]="project.customer_id" placeholder="Customer Name" name="customerId"
+              [ngClass]="{ 'has-error': submitted && f.customerId.errors }" class="form-control"
+              formControlName="customerId" (selectionChange)="changeBuCode(project.customer_id,project.ptype_id)">
+              <mat-option *ngFor="let ele of customerCodeArr" name="selectrole" [value]="ele.id">
+                {{ele.customer_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="submitted && f.customerId.errors" class="help-block">
+            <div *ngIf="f.customerId.errors.required" class="validation-error">Select any customer name</div>
+          </div>
+        </div>
+        <!-- Service line -->
+        <div *ngIf="!edit" [ngClass]="{ 'has-error': submitted && f.serviceLine.errors }" class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <mat-select [(ngModel)]="project.ptype_id" placeholder="Service Line" name="serviceLine"
+              [ngClass]="{ 'has-error': submitted && f.serviceLine.errors }"
+              (selectionChange)="changeBuCode(project.customer_id,project.ptype_id)" class="form-control"
+              formControlName="serviceLine">
+              <mat-option *ngFor="let ele of proTypeArr" name="selectrole" [value]="ele.id">
+                {{ele.p_type}} - {{ele.description}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="submitted && f.serviceLine.errors" class="help-block">
+            <div *ngIf="f.serviceLine.errors.required" class="validation-error">Select any service line</div>
+          </div>
+        </div>
+        <!-- Project Manager -->
+        <div [ngClass]="{ 'has-error': submitted && f.bussinessUnit.errors }" class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <mat-select [(ngModel)]="project.manager_id" placeholder="Project Manager" name="bussinessUnit"
+              [ngClass]="{ 'has-error': submitted && f.bussinessUnit.errors }" class="form-control"
+              formControlName="bussinessUnit">
+              <mat-option *ngFor="let ele of projManArr" name="selectrole" [value]="ele.user_id">
+                {{ele.user_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="submitted && f.bussinessUnit.errors" class="help-block">
+            <div *ngIf="f.bussinessUnit.errors.required" class="validation-error">Select any project manager</div>
+          </div>
+        </div>
+        <!-- Project Category -->
+        <div [ngClass]="{ 'has-error': submitted && f.projectCatg.errors }" class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <mat-select [(ngModel)]="project.p_catg_id" placeholder="Project Category" name="projectCatg"
+              [ngClass]="{ 'has-error': submitted && f.projectCatg.errors }" class="form-control"
+              formControlName="projectCatg">
+              <mat-option *ngFor="let ele of projCatgArr" name="selectrole" [value]="ele.id">
+                {{ele.category_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="submitted && f.projectCatg.errors" class="help-block">
+            <div *ngIf="f.projectCatg.errors.required" class="validation-error">Select any project category</div>
+          </div>
+        </div>
+        <!-- Project Name -->
+        <div [ngClass]="{ 'has-error': submitted && f.projectname.errors }" class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Project Name" type="text" [(ngModel)]="project.project_name" name="projectName"
+              [ngClass]="{ 'has-error': submitted && f.projectname.errors }" class="form-control"
+              formControlName="projectname" (keypress)="checkProCre($event,'name')">
+          </mat-form-field>
+          <div *ngIf="submitted && f.projectname.errors" class="help-block">
+            <div *ngIf="f.projectname.errors.required" class="validation-error">Project Name is required</div>
+          </div>
+        </div>
+        <!-- Project description -->
+        <div [ngClass]="{ 'has-error': submitted && f.description.errors }" class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Description" type="text" [(ngModel)]="project.description" name="description"
+              [ngClass]="{ 'has-error': submitted && f.description.errors }" class="form-control"
+              formControlName="description">
+          </mat-form-field>
+          <div *ngIf="submitted && f.description.errors" class="help-block">
+            <div *ngIf="f.description.errors.required" class="validation-error">Description is required</div>
+          </div>
+        </div>
+        <div fxLayout="row" *ngIf="screen==false" fxLayoutAlign="space-between">
+          <div [ngClass]="{ 'has-error': submitted && f.start_date.errors }" class="form-group clearfix">
+
+            <mat-form-field *ngIf="!edit">
+              <input matInput [matDatepicker]="startPicker" placeholder="Project start date"
+                [(ngModel)]="selectedStartDate" (focus)="startPicker.open()" (click)="startPicker.open()"
+                class="form-control" formControlName="start_date" (dateChange)="changedStartDate('change', $event)"
+                readonly>
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="submitted && f.start_date.errors" class="help-block">
+              <div *ngIf="f.start_date.errors.required" class="validation-error">start Date is required</div>
+            </div>
+          </div>
+          <div [ngClass]="{ 'has-error': submitted && f.end_date.errors }" class="form-group clearfix">
+            <mat-form-field *ngIf="!edit">
+              <input matInput [matDatepicker]="endPicker" placeholder="Project end date" [(ngModel)]="selectedEndDate"
+                (focus)="endPicker.open()" (click)="endPicker.open()" class="form-control" formControlName="end_date"
+                (dateChange)="changedEndDate('change', $event)" readonly>
+              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="submitted && f.end_date.errors" class="help-block">
+              <div *ngIf="f.end_date.errors.required" class="validation-error">End Date is required</div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="column" *ngIf="screen==true" fxLayoutAlign="space-between">
+          <div [ngClass]="{ 'has-error': submitted && f.start_date.errors }" class="form-group clearfix">
+            <mat-form-field *ngIf="!edit">
+              <input matInput [matDatepicker]="startPicker" placeholder="Project start date"
+                [(ngModel)]="project.start_date" (focus)="startPicker.open()" (click)="startPicker.open()"
+                class="form-control" formControlName="start_date" readonly>
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="submitted && f.start_date.errors" class="help-block">
+              <div *ngIf="f.start_date.errors.required" class="validation-error">start Date is required</div>
+            </div>
+          </div>
+          <div [ngClass]="{ 'has-error': submitted && f.end_date.errors }" class="form-group clearfix">
+            <mat-form-field *ngIf="!edit">
+              <input matInput [matDatepicker]="endPicker" placeholder="Project end date" [(ngModel)]="project.end_date"
+                (focus)="endPicker.open()" (click)="endPicker.open()" class="form-control" formControlName="end_date"
+                readonly>
+              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="submitted && f.end_date.errors" class="help-block">
+              <div *ngIf="f.end_date.errors.required" class="validation-error">End Date is required</div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!edit" class="full-width" [ngClass]="{ 'has-error': submitted && f.project_code.errors }"
+          class="form-group clearfix">
+          <div fxLayout="row" *ngIf="screen==false" fxLayoutAlign="space-between center">
+            <mat-form-field class="shortInput">
+              <input matInput placeholder="Customer" [(ngModel)]="project.customer_code" formControlName="customerCode"
+                readonly>
+            </mat-form-field>
+            <mat-form-field class="shortInput">
+              <input matInput placeholder="Project No" [(ngModel)]="project.project_code" formControlName="project_code"
+                readonly>
+            </mat-form-field>
+            <div class="divider">-</div>
+            <mat-form-field class="shortInput">
+              <input matInput placeholder="Service Line" [(ngModel)]="project.p_type" formControlName="serviceLineType"
+                readonly>
+            </mat-form-field>
+            <mat-form-field class="shortInput">
+              <input matInput placeholder="BussinessUnit" [(ngModel)]="project.BU_code" formControlName="BU_code"
+                readonly>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" *ngIf="screen==true" fxLayoutAlign="space-between">
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <mat-form-field class="shortInput">
+                <input matInput placeholder="Customer" [(ngModel)]="project.customer_code"
+                  formControlName="customerCode" readonly>
+              </mat-form-field>
+              <mat-form-field class="shortInput">
+                <input matInput placeholder="Project No" [(ngModel)]="project.project_code"
+                  formControlName="project_code" readonly>
+              </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-between">
+              <mat-form-field class="shortInput">
+                <input matInput placeholder="Service Line" [(ngModel)]="project.p_type"
+                  formControlName="serviceLineType" readonly>
+              </mat-form-field>
+              <mat-form-field class="shortInput">
+                <input matInput placeholder="BussinessUnit" [(ngModel)]="project.BU_code" formControlName="BU_code"
+                  readonly>
+              </mat-form-field>
+            </div>
+          </div>
+          <div *ngIf="submitted && f.project_code.errors" class="help-block">
+            <div *ngIf="f.project_code.errors.required" class="validation-error text-center">Project Code is required
+            </div>
+          </div>
+        </div>
+      </form>
+      <div fxLayout="row" fxLayoutAlign="end">
+        <a mat-button routerLink="/timesheet/admin/projects">Cancel</a>
+        <button mat-raised-button class="actionButton" (click)="edit ? updateProject() : saveNewProject()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

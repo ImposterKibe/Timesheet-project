@@ -1,0 +1,163 @@
+mat-footer-row mat-footer-cell{
+    justify-content: center;
+    font-style: italic;
+}
+.dateDiv{
+    border:1px solid #0071A5;
+    padding: 1% 2% 0% 2%;
+    border-radius: 5px;
+}
+
+.msgTable{
+  margin-top:1rem ;
+}
+
+.datebtnDiv{
+  margin-top:-1rem ;
+}
+
+.userReportForm{
+  text-align: right !important;
+}
+
+@media(max-width: 600px) {
+  .mat-header-row {
+    display: none;
+  }
+  .mat-row { 
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 8px;
+  }
+  mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type {
+    padding-left: 0px;
+  }
+  .mat-table[_ngcontent-c1] {
+    overflow: auto;
+    max-height: 350px;
+  }
+  .mat-table {
+    //overflow: auto;
+    max-height: auto;
+    overflow-y: scroll;
+  }
+  .dateDiv{
+    padding: 2% 4% 2% 4% !important;
+    width : -webkit-fill-available;
+  }
+  .userReportForm{
+    text-align: left !important;
+  }
+}
+
+#barChartdiv {
+      width: 100%;
+      height: 290px;
+      // height: 38vh;
+      font-size	: 11px;
+}
+
+#pieChartdiv{
+  width: 100%;
+  height:353px;
+  font-size	: 11px;
+}
+
+.mat-column-Details{
+  flex: 0 0 50%;
+}
+
+.mat-column-Hours{
+  flex: 0 0 25%;
+}
+
+.icon-bar1>mat-card{
+  text-align: center;
+  width: 100%;
+  background: #0071A5;
+  color: white;
+}
+
+.example-card {
+  min-width: 30%;      
+}
+
+.tsHeight{
+  height:405px;
+}
+
+.main-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mat-cell{
+  color:white !important; 
+}
+
+.mat-row:nth-child(2){
+  background:#7B8C80 !important;  
+}
+
+.mat-row:nth-child(3){
+  background:#4EBA6F !important;  
+}
+
+.mat-row:nth-child(4){
+  background:#2D95BF !important;  
+}
+
+.mat-row:nth-child(5){
+  background:#955BA5 !important;  
+}
+
+.mat-row:nth-child(6){
+  background:#BF9004 !important;  
+}
+
+.mat-row:nth-child(7){
+  background:#F0C419 !important;  
+}
+
+.mat-row:nth-child(8){
+  background:#F2506E !important;
+}
+
+.mat-row:nth-child(9){
+  background:#f30000 !important; 
+}
+
+.firstDiv{
+  display: flex;
+}
+.innerSecondDiv{
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+}
+.spacer{
+  width: 5%;   
+}
+.tsSummary{
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: center space-evenly;
+  align-items: center;
+}
+
+mat-header-row, mat-row {
+  min-height: 40px;
+}
+
+.mat-card-header>*{
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.mat-card-header-text{
+  width: 100% !important;
+}

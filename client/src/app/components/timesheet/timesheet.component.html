@@ -1,0 +1,205 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="screen==true">
+    <div class="icon-bar" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="1%">
+      <div fxFlex="11.42% matRipple">
+        <mat-card class="">
+          <mat-card-content>
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+              <div class="text-center">
+                <input matInput [matDatepicker]="startPicker" [(ngModel)]="selectedStartDate" placeholder=""
+                  (focus)="startPicker.open()" name="start_Date" class="form-control home-date"
+                  (dateChange)="changedStartDate('change', $event)" readonly>
+                <mat-datepicker #startPicker></mat-datepicker>
+              </div>
+              <div class="text-center">-</div>
+              <div class="text-center">
+                <input matInput [matDatepicker]="endPicker" placeholder="" (focus)="endPicker.open()"
+                  [min]="showChangedDate" name="end_Date" class="form-control home-date" [(ngModel)]="selectedEndDate"
+                  (click)="endPicker.open()" (dateChange)="changedEndDate('change', $event)" readonly>
+                <mat-datepicker #endPicker></mat-datepicker>
+              </div>
+            </div>
+            <div class="text-center" style="margin-top: 4%;">
+              {{dateHrs}}
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div>
+      <a class="actionButton" color="primary" mat-mini-fab routerLink="/timesheet/add" routerLinkActive="active">
+        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+      </a>
+    </div>
+  </div>
+
+  <div class="icon-bar" fxLayout="row" fxLayout.xs="column" *ngIf="screen==false" fxLayoutAlign="end" fxLayoutGap="1%">
+    <div fxFlex="11.42%">
+      <mat-card class="" [ngClass]="{'mat-card-active': selectedIndex == 1}" (click)="checkRouting('today')">
+        <mat-card-header>
+          <mat-card-title>Today</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{todayhrs}}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex="11.42%">
+      <mat-card class="" [ngClass]="{'mat-card-active': selectedIndex == 2}" (click)="checkRouting('yesterday')">
+        <mat-card-header>
+          <mat-card-title>Yesterday</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{yesterdayhrs}}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex="11.42%">
+      <mat-card class="" [ngClass]="{'mat-card-active': selectedIndex == 3}" (click)="checkRouting('week')">
+        <mat-card-header>
+          <mat-card-title>This Week</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{thisWeekHrs}}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex="11.42% matRipple">
+      <mat-card class="">
+        <mat-card-content>
+          <div fxLayout="row" fxLayoutAlign="space-around center">
+            <div class="text-center">
+              <input matInput [matDatepicker]="startPicker" [(ngModel)]="selectedStartDate" placeholder=""
+                (click)="startPicker.open()" name="start_Date" class="form-control home-date"
+                (dateChange)="changedStartDate('change', $event)" readonly>
+              <mat-datepicker #startPicker></mat-datepicker>
+            </div>
+            <div class="text-center">-</div>
+            <div class="text-center">
+              <input matInput [matDatepicker]="endPicker" placeholder="" (click)="endPicker.open()"
+                [min]="showChangedDate" name="end_Date" class="form-control home-date" [(ngModel)]="selectedEndDate"
+                (dateChange)="changedEndDate('change', $event)" readonly>
+              <mat-datepicker #endPicker></mat-datepicker>
+            </div>
+          </div>
+          <div class="text-center" style="margin-top: 4%;">
+            {{dateHrs}}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex="11.42%">
+      <mat-card class="" [ngClass]="{'mat-card-active': selectedIndex == 4}" (click)="checkRouting('lastWeek')">
+        <mat-card-header>
+          <mat-card-title>Last Week</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            {{lastWeekHrs}}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex="11.42%">
+      <mat-card class="" [ngClass]="{'mat-card-active': selectedIndex == 5}" (click)="checkRouting('thisMonth')">
+        <mat-card-header>
+          <mat-card-title>This Month</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{thisMonthHrs}}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex="11.42%">
+      <mat-card class="" [ngClass]="{'mat-card-active': selectedIndex == 6}"(click)="checkRouting('lastMonth')">
+        <mat-card-header>
+          <mat-card-title>Last Month</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{lastMonthHrs}}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div></div>
+    <div>
+      <a class="actionButton" color="primary" mat-fab routerLink="/timesheet/add" routerLinkActive="active">
+        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+      </a>
+    </div>
+  </div>
+  <div *ngIf="showTable==false" class="mat-elevation-z16 timesheet-table msgTable">
+    <mat-card class="error-msg text-center">{{tableMsg}}</mat-card>
+  </div>
+
+
+  <div class="mat-elevation-z8 timesheet-table" *ngIf="showTable">
+    <mat-table [dataSource]="timesheets" matSort [class.isMobile]="isMobile">
+      <ng-container matColumnDef="project_name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Project </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Project:</span>
+          {{element.project_name}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="entry_date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Date:</span>
+          {{ element.entry_date | date:'dd/MM/yyyy' }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="start_time">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Start Time </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Start Time :</span>
+          {{ element.start_time | date:'HH:mm' }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="end_time">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> End Time </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">End Time :</span>
+          {{ element.end_time | date:'HH:mm' }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="duration">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Duration </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Duration :</span>
+          {{ getDuration(element.duration) }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Description:</span>
+          {{ element.description}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef class="actionsHead"> Actions</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="actions-one">
+          <span class="mobile-label"></span>
+          <button mat-button (click)="editTimesheet(element.timesheet_id)" [disabled]="element.edit_flag">
+            <i class="material-icons">
+              edit
+            </i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator #paginator [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,40 @@
+<app-navbar></app-navbar>
+<div class="container mb-10" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+
+  <mat-tab-group class="mb-10" (selectedTabChange)="tabClick($event)" [(selectedIndex)]="demo1TabIndex">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span>My Report</span>
+      </ng-template>
+      <div *ngIf="showUserReport">
+        <app-user-reports [showNav]="false"></app-user-reports>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span>Project Report</span>
+      </ng-template>
+      <div *ngIf="showManagerReport">
+        <app-manager-reports [showNav]="false"></app-manager-reports>
+      </div>
+    </mat-tab>
+
+    <mat-tab *ngIf="roleid==1">
+      <ng-template mat-tab-label>
+        <span>Summary Report</span>
+      </ng-template>
+      <div *ngIf="showAdminReport">
+        <app-admin-reports [showNav]="false"></app-admin-reports>
+      </div>
+    </mat-tab>
+
+    <mat-tab *ngIf="roleid==1">
+      <ng-template mat-tab-label>
+        <span>Availability Report</span>
+      </ng-template>
+      <div *ngIf="showAvailableReport">
+        <app-available-reports [showNav]="false"></app-available-reports>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

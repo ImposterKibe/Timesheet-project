@@ -1,0 +1,224 @@
+<app-navbar></app-navbar>
+<div class="container mb-10" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div class="item item-1" fxFlex="100%">
+    <mat-card class="pb-0">
+      <mat-card-header>
+        <mat-card-title class="main-heading">Project Member Assignment</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="pb-0">
+        <form [formGroup]="planForm" *ngIf="screen==true">
+          <div fxLayout="column" fxLayoutAlign="space-between">
+            <div class="plan-full-width" class="form-group clearfix"
+              [ngClass]="{ 'has-error': submitted && f.project_id.errors }">
+              <mat-form-field class="plan-full-width">
+                <mat-select [(ngModel)]="plan.project_id" placeholder="Project Name" name="project_id"
+                  [ngClass]="{ 'has-error': submitted && f.project_id.errors }" class="form-control"
+                  formControlName="project_id" (selectionChange)="selectProid(this.project)"
+                  [disabled]="planSubmit ? true : false">
+                  <mat-option *ngFor="let project of projectsList" [value]="project.id"
+                    matTooltip="{{project.project_name}}_{{project.value}}" matTooltipPosition="right">
+                    {{project.project_name}}_{{project.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="submitted && f.project_id.errors" class="help-block">
+                <div *ngIf="f.project_id.errors.required" class="validation-error">project required</div>
+              </div>
+            </div>
+
+            <div class="plan-full-width" class="form-group clearfix"
+              [ngClass]="{ 'has-error': submitted && f.user_id.errors }">
+              <mat-form-field class="plan-full-width">
+                <mat-select [(ngModel)]="plan.user_id" placeholder="Employee" name="user_id"
+                  [ngClass]="{ 'has-error': submitted && f.user_id.errors }" class="form-control"
+                  formControlName="user_id" multiple [disabled]="planSubmit ? true : false">
+                  <mat-option *ngFor="let user of users" [value]="user.user_id" (click)="selectuserid(this.user)"
+                    matTooltip="{{user.user_name}}" matTooltipPosition="right">
+                    {{user.user_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="submitted && f.user_id.errors" class="help-block">
+                <div *ngIf="f.user_id.errors.required" class="validation-error">user required</div>
+              </div>
+            </div>
+            <div class="plan-full-width" class="form-group clearfix"
+              [ngClass]="{ 'has-error': submitted && f.startDate.errors }">
+              <mat-form-field>
+                <input matInput [matDatepicker]="startPicker" placeholder="Project start date"  [min]="startMinDate" [max]="startMaxDate"
+                  (focus)="startPicker.open()" [(ngModel)]="plan.startDate" name="startDate" class="form-control"
+                  formControlName="startDate" (click)="startPicker.open()"
+                  (dateChange)="changedStartDate('change', $event)" readonly [disabled]="planSubmit ? true : false">
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+              </mat-form-field>
+              <div *ngIf="submitted && f.startDate.errors" class="help-block">
+                <div *ngIf="f.startDate.errors.required" class="validation-error">start date required</div>
+              </div>
+            </div>
+            <div class="plan-full-width" class="form-group clearfix"
+              [ngClass]="{ 'has-error': submitted && f.endDate.errors }">
+              <mat-form-field>
+                <input matInput [matDatepicker]="endPicker" placeholder="Project end date" (focus)="endPicker.open()"
+                [min]="endMinDate" [max]="endMaxDate" [(ngModel)]="plan.endDate" name="endDate" class="form-control"
+                  formControlName="endDate" (dateChange)="changedEndDate('change', $event)" (click)="endPicker.open()"
+                  readonly [disabled]="planSubmit ? true : false">
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+              </mat-form-field>
+              <div *ngIf="submitted && f.endDate.errors" class="help-block">
+                <div *ngIf="f.endDate.errors.required" class="validation-error">end date required</div>
+              </div>
+            </div>
+            <div>
+              <button mat-raised-button class="actionButton" [disabled]="planSubmit"
+                (click)="planningSubmit()" >Create Plan</button>
+            </div>
+          </div>
+        </form>
+        <form [formGroup]="planForm" *ngIf="screen==false">
+          <div class="plan-full-width" fxFlex="20%" class="form-group clearfix"
+            [ngClass]="{ 'has-error': submitted && f.project_id.errors }">
+            <mat-form-field class="plan-full-width">
+              <mat-select [(ngModel)]="plan.project_id" placeholder="Project Name" name="project_id"
+                [ngClass]="{ 'has-error': submitted && f.project_id.errors }" class="form-control"
+                formControlName="project_id" (selectionChange)="selectProid(this.project)"
+                [disabled]="planSubmit ? true : false">
+                <mat-option *ngFor="let project of projectsList" [value]="project.id"
+                  matTooltip="{{project.project_name}}_{{project.value}}" matTooltipPosition="right">
+                  {{project.project_name}}_{{project.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="submitted && f.project_id.errors" class="help-block">
+              <div *ngIf="f.project_id.errors.required" class="validation-error">project required</div>
+            </div>
+          </div>
+          <div class="plan-full-width" fxFlex="20%" class="form-group clearfix"
+            [ngClass]="{ 'has-error': submitted && f.user_id.errors }">
+            <mat-form-field class="plan-full-width">
+              <mat-select [(ngModel)]="plan.user_id" placeholder="Employee" name="user_id"
+                [ngClass]="{ 'has-error': submitted && f.user_id.errors }" class="form-control"
+                formControlName="user_id" multiple [disabled]="planSubmit ? true : false">
+                <mat-option *ngFor="let user of users" [value]="user.user_id" (click)="selectuserid(this.user)"
+                  matTooltip="{{user.user_name}}" matTooltipPosition="right">
+                  {{user.user_name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="submitted && f.user_id.errors" class="help-block">
+              <div *ngIf="f.user_id.errors.required" class="validation-error">user required</div>
+            </div>
+          </div>
+          <div class="plan-full-width" fxFlex="20%" class="form-group clearfix"
+            [ngClass]="{ 'has-error': submitted && f.startDate.errors }">
+            <mat-form-field>
+              <input matInput [matDatepicker]="startPicker" placeholder="Project start date"   [min]="startMinDate" [max]="startMaxDate"
+                (focus)="startPicker.open()" [(ngModel)]="plan.startDate" name="startDate" class="form-control"
+                formControlName="startDate" (click)="startPicker.open()"
+                (dateChange)="changedStartDate('change', $event)" readonly [disabled]="planSubmit ? true : false">
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="submitted && f.startDate.errors" class="help-block">
+              <div *ngIf="f.startDate.errors.required" class="validation-error">Start date required</div>
+            </div>
+          </div>
+          <div class="plan-full-width" fxFlex="20%" class="form-group clearfix"
+            [ngClass]="{ 'has-error': submitted && f.endDate.errors }">
+            <mat-form-field>
+              <input matInput [matDatepicker]="endPicker" placeholder="Project end date" (focus)="endPicker.open()"
+              [min]="endMinDate" [max]="endMaxDate" [(ngModel)]="plan.endDate" name="endDate" class="form-control"
+                formControlName="endDate" (dateChange)="changedEndDate('change', $event)" (click)="endPicker.open()"
+                readonly [disabled]="planSubmit ? true : false">
+              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="submitted && f.endDate.errors" class="help-block">
+              <div *ngIf="f.endDate.errors.required" class="validation-error">End date required</div>
+            </div>
+          </div>
+          <div fxFlex="5%"></div>
+          <div fxFlex="10%" class="mt-1">
+            <button mat-raised-button class="actionButton" [disabled]="planSubmit"
+              (click)="planningSubmit()">Create Plan</button>
+          </div>
+          <div fxFlex="5%"></div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0"
+  id="planSummary" *ngIf="show">
+  <div class="item item-2" fxFlex="100%">
+    <div class="mat-elevation-z8 example-container" [class.isMobile]="isMobile">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="empName" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee Name</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="mobile-label">Employee:</span>
+            {{element.empName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="projectName" sticky>
+          <th mat-header-cell *matHeaderCellDef class="text-left">Project</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="mobile-label">Project Name:</span>
+            {{element.projectName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="showAvAs" sticky>
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <span class="mobile-label"></span>
+            <pre width="50">Available
+Assigned 
+                      </pre>
+          </td>
+        </ng-container>
+        <ng-container *ngFor="let column of columns" matColumnDef="{{column.columnDef}}">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{column.hoverTxt }}"
+            class="mat-header-cell {{column.class}}">
+            {{column.header }}
+          </th>
+          <td mat-cell *matCellDef="let element" class='dataEle {{column.class}}'>
+            <span class="mobile-label">{{column.header }}:</span>
+            <pre> {{element[''+column.columnDef].Available}}
+<input matInput class="assignedInput" placeholder="Hours" type='number'
+[min]="0" [max]="element[''+column.columnDef].max"
+   (keyup)="assignedChange($event,element.number,column.columnDef,element[''+column.columnDef].max)"
+   (click)="assignedChange($event,element.number,column.columnDef,element[''+column.columnDef].max)"
+   [ngModel]="element[''+column.columnDef].Assigned" [disabled]="isSortingDisabled(column)">
+                      </pre>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="total" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="mobile-label">Total : </span>
+            <pre> {{element.totalAss}}
+<input matInput class="assignedInput"  type='number' [ngModel]="element.total" readonly>
+                </pre>
+          </td>
+        </ng-container>
+        <ng-container *ngFor="let column of tempTopCol" matColumnDef="{{column.columnDef}}">
+          <th mat-header-cell *matHeaderCellDef class="mat-header-cell weekData tempData {{column.class}}"
+            [attr.colspan]="column.colspan" [attr.rowspan]="column.rowspan">
+            {{column.header}}
+          </th>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedTopColumns; sticky: true" class="TopHeadersTr"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="secondary-header"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <div class="footer">
+        <mat-paginator #paginator [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]"
+          showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+    <div class="planBtn">
+      <a mat-button routerLink="/timesheet/admin/planning">Cancel</a>
+      <button class="actionButton float-right" mat-raised-button (click)="savePlanning()">Save Plan</button>
+    </div>
+  </div>
+</div>

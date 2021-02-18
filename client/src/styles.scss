@@ -1,0 +1,267 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import '~@angular/material/theming';
+
+// Define a custom typography config that overrides the font-family as well as the
+// `headlines` and `body-1` levels.
+$custom-typography: mat-typography-config(
+  $font-family: 'Muli, sans-serif',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+
+// Override the typography in the core CSS.
+@include mat-core($custom-typography);
+
+body{
+    padding: 0;
+    margin: 0;
+    font-family: 'Muli', sans-serif !important;  
+    background: hsla(199, 100%, 32%, 0.05);
+    // background: #fafafa;
+    // background-image: linear-gradient(to left , rgba(255,0,0,0), rgba(255, 230, 234,0.3));
+}
+
+
+::-moz-selection {
+  background: #d91652;
+  color: #ffffff;
+}
+::selection {
+  background: #d91652;
+  color: #ffffff;
+}
+
+.plan-form{
+  width: 100%;
+}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  @media (min-width: 768px) {
+    .container {
+      width: 750px;
+    }
+  }
+  @media (min-width: 992px) {
+    .container {
+      width: 970px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .container {
+      width: 1170px;
+    }
+  }
+  @media(max-width: 600px) {
+    .full-width{
+      width: 85%;
+    }
+    .mobile-label {
+      width: max-content !important;
+      display: inline-block !important;
+      font-weight: bold !important;
+      padding: 0px 5px 0px 2px !important;
+    }
+  }
+  .addForm{
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  .validation-error{
+    color: red;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-size: 14px;
+  }
+  .example-radio-group {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+  }
+  label{
+    font-weight: bold;
+  }
+  .example-radio-button {
+    margin: 10px 15px 5px 0px;
+  }
+  .full-width{
+    width: 100%;
+  }
+  .quarter-width{
+    width: 25%;
+  }
+  table {
+    width: 100%;
+  }
+  .mat-card{
+    // color: #72727d;
+    // color: white;
+    cursor:pointer;
+    // background: #F9F9F9;
+    color: hsla(0, 0%, 26%, 0.8);
+    // padding-bottom: 0 !important;
+
+}
+
+// mat-header-cell{
+//   font-weight: bold !important;
+// }
+mat-form-field {
+  margin-right: 12px;
+}
+
+.text-center{
+  text-align: center
+}
+
+.icon-bar>div>mat-card{
+  text-align: center;
+  padding: 4px 8px;
+}
+
+mat-table{
+  background: #ffffff !important;
+  overflow: auto;
+  max-height: 600px !important;
+}
+
+mat-footer-row, mat-row {
+  min-height: 28px !important;
+}
+mat-header-row {
+  min-height: 36px !important;
+}
+mat-header-cell .mat-sort-header-container.mat-sort-header-sorted .mat-sort-header-arrow {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+th.mat-header-cell .mat-sort-header-container.mat-sort-header-sorted .mat-sort-header-arrow {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+mat-footer-row, mat-header-row, mat-row, td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+  border-bottom-color: #d7edf3  !important;
+}
+
+.mat-header-cell{
+  background: hsla(199, 100%, 32%, 1) !important;
+  color: hsla(0, 0%, 100%, 0.9) !important
+}
+
+.mat-sort-header-arrow{
+  color: #d7edf3 !important;
+}
+
+.text-left{
+  text-align: left;
+}
+
+.icon-bar>.mat-card-header-text{
+  font-size: 1rem !important;
+}
+.mat-card-header-text{
+  margin: 0 !important
+}
+
+input:-internal-autofill-selected {
+background-color: transparent !important;
+color: initial !important;
+}
+
+.mat-header-cell{
+  color: #333333;
+  font-size: 0.85rem;
+}
+
+pre{
+  margin-bottom: 0 !important;
+}
+
+.main-heading{
+  text-align: center;
+  font-weight: normal !important;
+  color: #0071A5;
+  // margin-top: 0;
+}
+
+.heading{
+  font-weight: normal !important;
+  color: #0071A5;
+}
+
+.mat-cell, .mat-footer-cell {
+    font-size: 14px !important;
+    color: rgb(117, 117, 117) !important;
+}
+.mat-raised-button[disabled][disabled] {
+  color: rgba(0,0,0,.26);
+  background: rgb(117, 117, 117) !important;
+}
+.error-msg{
+  color: red;
+}
+.mt-1{
+  margin-top: 1% !important;
+
+}
+.actions-two{
+  padding-right: 0 !important;
+  padding-left: 24px !important;
+}
+//css for all forms
+.actionButton{
+  background:#d91652  !important;
+  color:white !important;
+  }
+  .actionButton1{
+    background:#169bd9 !important;
+    color:white !important; 
+    }
+    .mb-10{
+      margin-bottom: 10px !important;
+    }
+
+    .text-right{
+      text-align: right !important;
+    }
+
+    .text-left{
+      text-align: left !important;
+    }
+    
+    .pb-0{
+      padding-bottom: 0 !important;
+    }
+
+    .mat-tab-header{
+      margin: 0 15px 10px 15px !important;
+  }
+
+  .mat-tab-body-content {
+    padding-bottom: 2rem;
+    height: auto !important;
+  }
+  .mobile-label {
+    display: none;
+}
+.actionsHead{
+  display: flex;
+  justify-content: flex-end;
+}
+.actions-one{
+  display: flex;
+  justify-content: flex-end;
+}
+.actions-two{
+  display: flex;
+  justify-content: flex-end;
+}
+.hide{
+  display: none;
+}

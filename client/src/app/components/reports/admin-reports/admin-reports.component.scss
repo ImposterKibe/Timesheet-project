@@ -1,0 +1,72 @@
+.exportBtn{
+  background:#d91652;
+  color:white;
+  float: right;
+}
+
+
+
+mat-footer-row mat-footer-cell{
+  justify-content: center;
+  font-style: italic;
+}
+
+.dateDiv{
+  padding: 1% 2% 0% 2%;
+}
+
+.msgTable{
+  margin-top:1rem ;
+}
+
+.datebtnDiv{
+  margin-top:-1rem ;
+}
+
+.summary-table{
+  margin-top: 0% !important;
+}
+
+.summaryDiv{
+  margin-top: 1% !important;
+}
+
+.timesheetDiv{
+  margin-top: 1% !important;
+  margin-bottom: 1% !important;
+
+}
+
+@media(max-width: 600px) {
+  .mat-header-row {
+    display: none;
+  }
+  .mat-row { 
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 8px;
+  }
+  mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type {
+    padding-left: 0px;
+  }
+  .mat-table[_ngcontent-c1] {
+    overflow: auto;
+    max-height: 350px;
+  }
+  .mat-table {
+    max-height: auto;
+    overflow-y: scroll;
+  }
+  .dateDiv{
+    padding: 2% 4% 2% 4% !important;
+    width : -webkit-fill-available;
+  }
+}
+
+.tsUser{
+  flex: 0 0 18%;
+}
+  
+mat-header-row{
+  min-height: 51px !important;
+}

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title class="text-center">Confirm Delete </h1>
+<div mat-dialog-content class="">
+  <div id="ans"></div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial >Ok</button>
+</div>

@@ -1,0 +1,88 @@
+mat-table{
+  max-height: 400px !important;
+}
+
+mat-footer-row mat-footer-cell{
+  justify-content: center;
+  font-style: italic;
+}
+.dateDiv{
+  border:1px solid #0071A5;
+  padding: 1% 2% 0% 2%;
+  border-radius: 5px;
+}
+
+.msgTable{
+  margin-top:1rem ;
+}
+
+.datebtnDiv{
+  margin-top:-1rem ;
+}
+  
+@media(max-width: 600px) {
+  .mat-header-row {
+    display: none;
+  }
+  .mat-row { 
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 8px;
+  }
+  mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type {
+    padding-left: 0px;
+  }
+  .mat-table[_ngcontent-c1] {
+    overflow: auto;
+    max-height: 350px;
+  }
+  .mat-table {
+    max-height: auto;
+    overflow-y: scroll;
+  }
+  .dateDiv{
+    padding: 2% 4% 2% 4% !important;
+    width : -webkit-fill-available;
+  }
+  .example-card{
+    display: block !important;
+    padding-bottom: 2% !important;
+  }
+}
+
+#barChartdiv {
+  width: 100%;
+  height: 370px;
+  font-size	: 11px;
+}
+
+.mat-column-user_name{
+  flex: 0 0 40%;
+}
+  
+.firstDiv{
+  display: flex;
+}
+
+.innerSecondDiv{
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.spacer{
+  width: 5%;   
+}
+
+.tsSummary{
+  margin-top: 2%;
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+}
+
+mat-header-row, mat-row {
+  min-height: 40px;
+}
+  

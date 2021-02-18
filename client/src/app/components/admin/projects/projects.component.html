@@ -1,0 +1,86 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <a>
+      <h2 class="heading">Projects</h2>
+    </a>
+    <div >
+      <mat-form-field>
+        <input matInput (keyup)="applyProjectsFilter($event.target.value)" placeholder="Search">
+      </mat-form-field>
+      <a color="primary" class="actionButton" *ngIf="roleid==1 && screen==false" mat-fab routerLink="/timesheet/admin/projects/add"
+        routerLinkActive="active">
+        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+      </a>
+      <a color="primary" class="actionButton" *ngIf="roleid==1 && screen==true" mat-mini-fab
+        routerLink="/timesheet/admin/projects/add" routerLinkActive="active">
+        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+      </a>
+    </div>
+  </div>
+  <div *ngIf="showTable==false" class="mat-elevation-z16 project-table msgTable">
+    <mat-card class="error-msg text-center">{{tableMsg}}</mat-card>
+  </div>
+
+  <div class="mat-elevation-z8 project-table" [class.isMobile]="isMobile" *ngIf="showTable">
+    <mat-table [dataSource]="projects" matSort>
+      <ng-container matColumnDef="project_name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-cell {{matColumnDefJson['project_name']}}">  Project Name</mat-header-cell>
+        <mat-cell *matCellDef="let element" matTooltip="{{element.project_code}}" matTooltipPosition="below"
+        class="mat-cell {{matColumnDefJson['project_name']}}">
+          <span class="mobile-label">Project Name:</span>
+          {{element.project_name}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="customer_name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-cell {{matColumnDefJson['customer_name']}}"> Customer Name</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="mat-cell {{matColumnDefJson['customer_name']}}">
+          <span class="mobile-label">Customer Name:</span>
+          {{element.customer_name}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="service_line">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-cell {{matColumnDefJson['service_line']}}"> Service Line</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="mat-cell {{matColumnDefJson['service_line']}}">
+          <span class="mobile-label">Service Line:</span>
+          {{element.service_line}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="user_name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-cell {{matColumnDefJson['user_name']}}"> Project Manager</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="mat-cell {{matColumnDefJson['user_name']}}">
+          <span class="mobile-label">Project Manager:</span>
+          {{element.user_name}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="planned_start_date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-cell {{matColumnDefJson['planned_start_date']}}"> Project Start Date</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="mat-cell {{matColumnDefJson['planned_start_date']}}">
+          <span class="mobile-label">Project Start date:</span>
+          {{element.planned_start_date}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="planned_end_date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-cell {{matColumnDefJson['planned_end_date']}}"> Project End Date</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="mat-cell {{matColumnDefJson['planned_end_date']}}">
+          <span class="mobile-label">Project End date:</span>
+          {{element.planned_end_date}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef class="actionsHead"> Actions</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="actions-two">
+          <button mat-button (click)="edit(element.id)" [disabled]="actionFlag ? true : false">
+            <i class="material-icons">
+              edit
+            </i>
+          </button>
+          <button mat-button (click)="delete(element)" [disabled]="actionFlag ? true : false">
+            <i class="material-icons">
+              delete
+            </i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator #paginator [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>

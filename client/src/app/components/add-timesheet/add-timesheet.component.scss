@@ -1,0 +1,22 @@
+.timesheet {
+    min-width: 200px !important;
+    max-width: 600px !important;
+}
+
+.small-width{
+    width: 100%;
+}
+
+@media(max-width: 600px) {
+    .small-width {
+        width: 50%;
+    }
+    .timesheet {
+        min-width: 100px !important;
+        max-width: 300px !important;
+        width: 90%;
+    }
+    .timeDiv{
+        width: 150px;
+    }
+  }

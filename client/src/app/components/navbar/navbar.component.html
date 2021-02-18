@@ -1,0 +1,90 @@
+<mat-toolbar color="primary" class="mat-elevation-z6">
+  <a routerLink="/timesheet" class="logo-wrapper">
+    <img class="nav-logo" alt="Quadratyx" src="../../assets/q_logo.png">
+  </a>
+
+  <span class="example-spacer"></span>
+  <div fxLayout="row" fxShow="false" fxShow.gt-sm class="innerToolBar">
+    <a *ngIf="roleid==1||roleid==2||roleid==3" routerLink="/timesheet" [routerLinkActive]='["active"]'
+      [routerLinkActiveOptions]='{exact:showActive}'>
+      Home
+    </a>
+
+    <a *ngIf="roleid==1" routerLink="/timesheet/admin/users" [routerLinkActive]='["active"]'
+      [routerLinkActiveOptions]='{exact:!showActive}'>
+      Users
+    </a>
+    <a *ngIf="roleid==1" routerLink="/timesheet/admin/customer" [routerLinkActive]='["active"]'
+      [routerLinkActiveOptions]='{exact:!showActive}'>
+      Customer
+    </a>
+    <a *ngIf="roleid==1 ||roleid==2" routerLink="/timesheet/admin/projects" [routerLinkActive]='["active"]'
+      [routerLinkActiveOptions]='{exact:!showActive}'>
+      Projects
+    </a>
+    <a *ngIf="roleid==1 ||roleid==2" routerLink="/timesheet/admin/planning" [routerLinkActive]='["active"]'
+      [routerLinkActiveOptions]='{exact:!showActive}'>
+      Planning
+    </a>
+    <a *ngIf="roleid==1 || roleid==2" routerLink="/timesheet/ViewReports" [routerLinkActive]='["active"]'
+      [routerLinkActiveOptions]='{exact:!showActive}'>
+      Reports
+    </a>
+    <a *ngIf="roleid==3" routerLink="/timesheet/userReports" [routerLinkActive]='["active"]'
+      [routerLinkActiveOptions]='{exact:!showActive}'>
+      Reports
+    </a>
+
+    <a *ngIf="roleid==1||roleid==2||roleid==3" [matMenuTriggerFor]="menu11" #trigger="matMenuTrigger"
+      (mouseenter)="buttonEnter(trigger)" (mouseleave)="buttonLeave(trigger)" class="nav-person-link" style="z-index:1050">
+      <mat-icon class="nav-person-icon">person</mat-icon>
+      <span>{{uname}}</span>
+    </a>
+
+    <mat-menu #menu1="matMenu" class="example-icon">
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>{{uname}}</span>
+      </button>
+      <a mat-menu-item routerLink="/timesheet/changePassword">
+        <mat-icon>edit</mat-icon>
+        <span>Change password</span>
+      </a>
+      <a mat-menu-item (click)="logout()" routerLink="/login" href="">
+        <mat-icon>keyboard_tab</mat-icon>
+        <span>Logout</span>
+      </a>
+    </mat-menu>
+    <mat-menu #menu11="matMenu" class="example-icon">
+      <span (mouseenter)="menuenter()" (mouseleave)="menuLeave(trigger)">
+        <a mat-menu-item routerLink="/timesheet/changePassword">
+          <mat-icon>edit</mat-icon>
+          <span>Change password</span>
+        </a>
+        <a mat-menu-item (click)="logout()" routerLink="/login" href="">
+          <mat-icon>keyboard_tab</mat-icon>
+          <span>Logout</span>
+        </a>
+      </span>
+    </mat-menu>
+  </div>
+  <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-menu x-position="before" #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>person</mat-icon><span>{{uname}}</span>
+  </button>
+  <button mat-menu-item routerLink="/timesheet" [routerLinkActive]='["active"]'
+    [routerLinkActiveOptions]='{exact:true}'>Home</button>
+  <button *ngIf="roleid==1" mat-menu-item routerLink="/timesheet/admin/users">Users</button>
+  <!-- <button *ngIf="roleid==1" mat-menu-item routerLink="/timesheet/admin/customer">Customers</button> -->
+  <!-- <button *ngIf="roleid==1 || roleid==2" mat-menu-item routerLink="/timesheet/admin/projects">Projects</button> -->
+  <!-- <button *ngIf="roleid==1 || roleid==2" mat-menu-item routerLink="/timesheet/admin/planning">Planning</button> -->
+  <!-- <button *ngIf="roleid==1 || roleid==2" mat-menu-item routerLink="/timesheet/ViewReports">Reports</button> -->
+  <button *ngIf="roleid==1 || roleid==2 || roleid==3" mat-menu-item routerLink="/timesheet/userReports">Reports</button>
+  <button mat-menu-item routerLink="/timesheet/changePassword">Change password</button>
+  <button mat-menu-item (click)="logout()" routerLink="/login">Logout</button>
+</mat-menu>
+<app-loader></app-loader>

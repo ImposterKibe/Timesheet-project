@@ -1,0 +1,76 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <a>
+      <h2 class="heading">Users</h2>
+    </a>
+    <div>
+      <mat-form-field>
+        <input matInput (keyup)="applyUsersFilter($event.target.value)" placeholder="Search">
+      </mat-form-field>
+      <a color="primary" class="actionButton" *ngIf="screen==false" mat-fab routerLink="/timesheet/admin/users/add"
+        routerLinkActive="active">
+        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+      </a>
+      <a color="primary" class="actionButton" *ngIf="screen==true" mat-mini-fab routerLink="/timesheet/admin/users/add"
+        routerLinkActive="active">
+        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+      </a>
+    </div>
+  </div>
+  <div *ngIf="showTable==false" class="mat-elevation-z16 user-table msgTable">
+    <mat-card class="error-msg text-center">{{tableMsg}}</mat-card>
+  </div>
+  <div class="mat-elevation-z8 user-table " [class.isMobile]="isMobile" *ngIf="showTable">
+    <mat-table [dataSource]="users" matSort>
+      <ng-container matColumnDef="user_id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> User Id</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">User Id:</span>{{element.user_id}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="user_name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> User Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">User Name:</span>
+          {{element.user_name}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="email_id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Email Id</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Email Id:</span>
+          {{element.email_id}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="emp_group">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Employee Group</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Employee Group:</span>
+          {{element.emp_group}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="role_id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Role</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span class="mobile-label">Role:</span>
+          {{roles[element.role_id]}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef class="actionsHead"> Actions</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="actions-two">
+          <button mat-button (click)="editUser(element.user_id)">
+            <i class="material-icons ">
+              edit
+            </i>
+          </button>
+          <button mat-button (click)="deleteUser(element)">
+            <i class="material-icons">
+              delete
+            </i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator #paginator [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>

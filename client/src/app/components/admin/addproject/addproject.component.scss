@@ -1,0 +1,15 @@
+
+.shortInput{
+  width:115px !important;
+}
+
+@media(max-width: 600px) {
+  .shortInput{
+    width:155px !important;
+  }    
+}
+
+.divider{
+  margin-right: 14px;
+  font-size: larger;
+}

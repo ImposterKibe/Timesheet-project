@@ -1,0 +1,65 @@
+<app-navbar></app-navbar>
+<h3 *ngIf="edit==false" class="main-heading">Add customer</h3>
+<h3 *ngIf="edit==true" class="main-heading">Edit customer</h3>
+<div class="container">
+  <div fxLayout="row" fxLayoutAlign="space-around">
+    <div class="addForm" fxLayout="column" fxLayoutAlign="space-around">
+      <form [formGroup]="customerForm">
+        <div [ngClass]="{ 'has-error': submitted && f.bussUnit.errors }" class="form-group clearfix">
+          <label id="example-radio-group-label" class="">Business Unit </label>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group form-control"
+            formControlName="bussUnit" [(ngModel)]="selectedItem" name="bussUnit"
+            [ngClass]="{ 'has-error': submitted && f.bussUnit.errors }">
+            <mat-radio-button class="example-radio-button" *ngFor="let ele of bussUnitArr" name="selectrole"
+              [value]="ele.id" (click)="selectBuid(this.ele.id)">
+              {{ele.bu_name}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <div *ngIf="submitted && f.bussUnit.errors" class="help-block">
+            <div *ngIf="f.bussUnit.errors.required" class="validation-error">Select any service line</div>
+          </div>
+        </div>
+
+        <div *ngIf="access==true" class="full-width" [ngClass]="{ 'has-error': submitted && f.customerCode.errors }"
+          class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Customer Code" type="text" [(ngModel)]="customer.customer_code"
+              name="customerCode" [ngClass]="{ 'has-error': submitted && f.customerCode.errors }" class="form-control"
+              formControlName="customerCode" oninput="this.value = this.value.toUpperCase()"
+              (keypress)="checkCustomerCre($event,'id')">
+          </mat-form-field>
+          <div *ngIf="submitted && f.customerCode.errors" class="help-block">
+            <div *ngIf="f.customerCode.errors.required" class="validation-error">Customer Id is required</div>
+          </div>
+        </div>
+        <div class="full-width" [ngClass]="{ 'has-error': submitted && f.customername.errors }"
+          class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Customer Name" type="text" [(ngModel)]="customer.name" name="customername"
+              [ngClass]="{ 'has-error': submitted && f.customername.errors }" class="form-control"
+              formControlName="customername" (keypress)="checkCustomerCre($event,'name')">
+          </mat-form-field>
+          <div *ngIf="submitted && f.customername.errors" class="help-block">
+            <div *ngIf="f.customername.errors.required" class="validation-error">Customer Name is required</div>
+          </div>
+        </div>
+        <div class="full-width" [ngClass]="{ 'has-error': submitted && f.description.errors }"
+          class="form-group clearfix">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Description" type="text" [(ngModel)]="customer.description" name="description"
+              [ngClass]="{ 'has-error': submitted && f.description.errors }" class="form-control"
+              formControlName="description">
+          </mat-form-field>
+          <div *ngIf="submitted && f.description.errors" class="help-block">
+            <div *ngIf="f.description.errors.required" class="validation-error">Description is required</div>
+          </div>
+        </div>
+      </form>
+      <div fxLayout="row" fxLayoutAlign="end">
+        <a mat-button routerLink="/timesheet/admin/customer">Cancel</a>
+        <button mat-raised-button class="actionButton"
+          (click)="edit ? updatecustomer() : addNewCustomer()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
